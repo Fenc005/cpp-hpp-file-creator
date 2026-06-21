@@ -14,7 +14,10 @@ class Messages
 		inline static const unordered_map<string, string> ERROR_MESSAGES =
 		{
 			{"INVALID_FILENAME", "[ERROR] Invalid filename entered"},
+			{"INVALID_FILEPATH", "[ERROR] Invalid filepath entered"},
 			{"INVALID_COMMAND", "[ERROR] Invalid command entered"},
+			{"INVALID_LANGUAGE", "[SOFT ERROR] Invalid programing language entered, therefore defaulting to C"},
+			{"INVALID_CLASS", "[SOFT ERROR] Answer was not valid, therefore defaulting to no"},
 		};
 
 		inline static const unordered_map<string, string> NORMAL_MESSAGES =
@@ -22,8 +25,11 @@ class Messages
 			{"WELCOME_LINE", "------------------------------------"},
 			{"WELCOME_MSSG", "Welcome to the cpp/hpp file creator!"},
 			{"INPUT_MSSG", "Please input the name of the file you want to create."},
-			{"QUIT_INFO", "(Use QUIT to end the program)"},
+			{"QUIT_INFO", "[INFO] Use QUIT to end the program."},
 			{"INPUT_WAIT", " > "},
+			{"FILE_PATH", "Please input the file path you want your files to be saved at."},
+			{"C_OR_CPP", "Do you want to create files for C [C] or C++ [P]"},
+			{"CLASS_OR_NO_CLASS", "Do you want to create the class? [YES]/[NO]"},
 		};
 
 		inline static const unordered_map<string, string> FILE_CONTENTS =
