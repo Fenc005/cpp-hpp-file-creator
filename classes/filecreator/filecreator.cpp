@@ -231,5 +231,4 @@ void FileCreator::classEnabler()
 
 		serializer_.writeError("INVALID_CLASS");
 	}
-
 }
