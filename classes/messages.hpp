@@ -19,6 +19,7 @@ class Messages
 			{"INVALID_LANGUAGE", "[SOFT ERROR] Invalid programing language entered, please select C [C] or C++ [P]"},
 			{"INVALID_CLASS", "[SOFT ERROR] Answer was not valid, please answer with [YES] or [NO]"},
 			{"NO_OPEN", "[ERROR] Failed to create files. Check folder permissions"},
+			{"FILE_NO_EMPTY" , "[ERROR] The filename is already in use and has some content in it."},
 		};
 
 		inline static const unordered_map<string, string> NORMAL_MESSAGES =

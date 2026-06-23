@@ -36,5 +36,6 @@ using std::filesystem::exists;
 using std::filesystem::create_directory;
 using std::filesystem::create_directories;
 using std::filesystem::current_path;
+using std::filesystem::file_size;
 
 #endif // BASE_HPP
