@@ -10,7 +10,7 @@ void Serializer::writeLine(const string text)
 
 void Serializer::write(const string text)
 {
-	stream_ << text;
+	stream_ << text << flush;
 }
 
 void Serializer::writeError(const string &message)
@@ -22,14 +22,14 @@ void Serializer::writeMessage(const string &message)
 {
 	if(message == "INPUT_WAIT")
 	{
-		stream_ << Messages::getNormalMessage(message);
+		write(Messages::getNormalMessage(message));
 		return;
 	}
 	
-	stream_ << Messages::getNormalMessage(message) << endl;
+	writeLine(Messages::getNormalMessage(message));
 }
 
 void Serializer::writeFileContent(const string &message)
 {
-	stream_ << Messages::getFileContents(message);
+	write(Messages::getFileContents(message));
 }

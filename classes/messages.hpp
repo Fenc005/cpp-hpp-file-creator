@@ -16,8 +16,8 @@ class Messages
 			{"INVALID_FILENAME", "[ERROR] Invalid filename entered"},
 			{"INVALID_FILEPATH", "[ERROR] There was an error creating the parent directory"},
 			{"INVALID_COMMAND", "[ERROR] Invalid command entered"},
-			{"INVALID_LANGUAGE", "[SOFT ERROR] Invalid programing language entered, therefore defaulting to C"},
-			{"INVALID_CLASS", "[SOFT ERROR] Answer was not valid, therefore defaulting to NO class"},
+			{"INVALID_LANGUAGE", "[SOFT ERROR] Invalid programing language entered, please select C [C] or C++ [P]"},
+			{"INVALID_CLASS", "[SOFT ERROR] Answer was not valid, please answer with [YES] or [NO]"},
 			{"NO_OPEN", "[ERROR] Failed to create files. Check folder permissions"},
 		};
 

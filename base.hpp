@@ -19,6 +19,7 @@ using std::vector;
 using std::cout;
 using std::endl;
 using std::cin;
+using std::flush;
 
 using std::format;
 using std::unordered_map;

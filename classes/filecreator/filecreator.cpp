@@ -73,35 +73,41 @@ void FileCreator::createFilePath()
 
 void FileCreator::checkProgramingLanguage()
 {
-	serializer_.writeLine();
-	serializer_.writeMessage("C_OR_CPP");
-	serializer_.writeMessage("INPUT_WAIT");
-
-	string input = "";
-	getline(cin, input);
-
-	Utils::allSmall(input);
-	if(input == "quit")
+	bool language_selector_running = true;
+	
+	while(language_selector_running == true)
 	{
-		running_ = States::QUIT;
-		return;
-	}
+		serializer_.writeLine();
+		serializer_.writeMessage("C_OR_CPP");
+		serializer_.writeMessage("INPUT_WAIT");
 
-	if(input != "c" && input != "p")
-	{
+		string input = "";
+		getline(cin, input);
+
+		Utils::allSmall(input);
+		if(input == "quit")
+		{
+			running_ = States::QUIT;
+			language_selector_running = false;
+			continue;
+		}
+
+		if(input == "c" || input == "")
+		{
+			is_cpp_ = false;
+			language_selector_running = false;
+			continue;
+		}
+
+		if(input == "p")
+		{
+			is_cpp_ = true;
+			classEnabler();
+			language_selector_running = false;
+			continue;
+		}
+
 		serializer_.writeError("INVALID_LANGUAGE");
-		return;
-	}
-
-	if(input == "p")
-	{
-		is_cpp_ = true;
-	}
-
-	if(is_cpp_ == true && with_class_.has_value() == false)
-	{
-		classEnabler();
-		if(running_ == States::QUIT) return;
 	}
 }
 
@@ -190,32 +196,40 @@ void FileCreator::createCFiles(string file_name)
 
 void FileCreator::classEnabler()
 {
-	serializer_.writeLine();
-	serializer_.writeMessage("CLASS_OR_NO_CLASS");
-	serializer_.writeMessage("INPUT_WAIT");
+	bool class_decision_running = true;
 
-	string input = "";
-	getline(cin, input);
-	Utils::allSmall(input);
-
-	if(input == "quit")
+	while(class_decision_running == true)
 	{
-		running_ = States::QUIT;
-		return;
-	}
+		serializer_.writeLine();
+		serializer_.writeMessage("CLASS_OR_NO_CLASS");
+		serializer_.writeMessage("INPUT_WAIT");
 
-	if(input != "yes" && input != "no")
-	{
+		string input = "";
+		getline(cin, input);
+		Utils::allSmall(input);
+
+		if(input == "quit")
+		{
+			running_ = States::QUIT;
+			class_decision_running = false;
+			continue;
+		}
+
+		if(input == "no" || input == "")
+		{
+			with_class_ = false;
+			class_decision_running = false;
+			continue;
+		}
+
+		if(input == "yes")
+		{
+			with_class_ = true;
+			class_decision_running = false;
+			continue;
+		}
+
 		serializer_.writeError("INVALID_CLASS");
-		with_class_ = false;
-		return;
 	}
 
-	if(input == "yes")
-	{
-		with_class_ = true;
-		return;
-	}
-
-	with_class_ = false;
 }
