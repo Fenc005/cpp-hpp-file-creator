@@ -149,13 +149,15 @@ void FileCreator::createCFiles(string file_name)
 	path new_path = file_path_ / path(file_name).relative_path();
 	create_directories(new_path);
 
-	ofstream c_file(new_path/(file_name + c_extension));
-	ofstream h_file(new_path/(file_name + h_extension));
+	//Todo checken wenn nur filename eingetragen wurde, dass es nur wirklich filename gibt (also keine parent directories)
+
+	ofstream c_file(new_path/path(file_name + c_extension).relative_path().filename());
+	ofstream h_file(new_path/path(file_name + h_extension).relative_path().filename());
 
 	if(c_file.is_open() == false || h_file.is_open() == false)
 	{
-      serializer_.writeError("NO_OPEN");
-      return;
+		serializer_.writeError("NO_OPEN");
+		return;
   }
 	
 	Serializer c_serializer(c_file);
