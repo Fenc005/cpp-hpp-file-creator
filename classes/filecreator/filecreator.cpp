@@ -99,7 +99,7 @@ void FileCreator::checkProgramingLanguage()
 			continue;
 		}
 
-		if(input == "p")
+		if(input == "p" || input == "cpp" || input == "+")
 		{
 			is_cpp_ = true;
 			classEnabler();
@@ -215,14 +215,14 @@ void FileCreator::classEnabler()
 			continue;
 		}
 
-		if(input == "no" || input == "")
+		if(input == "no" || input == "" || input == "n")
 		{
 			with_class_ = false;
 			class_decision_running = false;
 			continue;
 		}
 
-		if(input == "yes")
+		if(input == "yes" || input == "y")
 		{
 			with_class_ = true;
 			class_decision_running = false;
