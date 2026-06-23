@@ -52,8 +52,8 @@ class Messages
 			{"H", "_H"},
 			{"INCLUDE", "#include "},
 			{"CLASS", "class "},
-			{"PRIVATE", "private:"},
-			{"PUBLIC", "public:"},
+			{"PRIVATE", "\tprivate:"},
+			{"PUBLIC", "\tpublic:"},
 		};
 
 	public:
