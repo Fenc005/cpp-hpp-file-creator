@@ -97,6 +97,12 @@ void FileCreator::checkProgramingLanguage()
 	{
 		is_cpp_ = true;
 	}
+
+	if(is_cpp_ == true && with_class_.has_value() == false)
+	{
+		classEnabler();
+		if(running_ == States::QUIT) return;
+	}
 }
 
 void FileCreator::createFile()
@@ -137,12 +143,6 @@ void FileCreator::createClassForCpp(Serializer &h_serializer, string &file_name)
 
 void FileCreator::createCFiles(string file_name)
 {
-	if(is_cpp_ == true && with_class_.has_value() == false)
-	{
-		classEnabler();
-		if(running_ == States::QUIT) return;
-	}
-
 	string c_extension = (is_cpp_ == true) ? ".cpp" : ".c";
 	string h_extension = (is_cpp_ == true) ? ".hpp" : ".h";
 	string big_h_extension = h_extension.substr(1);
