@@ -19,7 +19,7 @@ void FileCreator::run()
 	checkProgramingLanguage();
 	if(running_ == States::QUIT) return;
 
-	while (running_ != States::QUIT)
+	while(running_ != States::QUIT)
 	{
 		createFile();
 	}
