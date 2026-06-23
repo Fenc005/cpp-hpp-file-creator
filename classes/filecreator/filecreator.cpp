@@ -1,17 +1,17 @@
 #include "filecreator.hpp"
 
-filecreator::filecreator() : file_path_(""), input_(""), is_cpp_(false), with_class_(false) {}
+FileCreator::FileCreator() : file_path_(""), input_(""), is_cpp_(false), with_class_(false), serializer_(cout) {}
 
-void filecreator::run()
+void FileCreator::run()
 {
-	cout << Messages::getNormalMessage("WELCOME_LINE") << endl;
-	cout << Messages::getNormalMessage("WELCOME_MSSG") << endl;
-	cout << Messages::getNormalMessage("WELCOME_LINE") << endl;
-
-	cout << endl << Messages::getNormalMessage("QUIT_INFO") << endl << endl;
-
-	cout << Messages::getNormalMessage("FILE_PATH") << endl;
-	cout << Messages::getNormalMessage("INPUT_WAIT");
+	serializer_.writeMessage("WELCOME_LINE");
+	serializer_.writeMessage("WELCOME_MSSG");
+	serializer_.writeMessage("WELCOME_LINE");
+	serializer_.writeLine();
+	serializer_.writeMessage("QUIT_INFO");
+	serializer_.writeLine();
+	serializer_.writeMessage("FILE_PATH");
+	serializer_.writeMessage("INPUT_WAIT");
 
 	getline(cin, file_path_);
 	if(checkInput(file_path_, "INVALID_FILEPATH") == true)
@@ -24,7 +24,7 @@ void filecreator::run()
 	creatorLoop();
 }
 
-void filecreator::creatorLoop()
+void FileCreator::creatorLoop()
 {
 	while(true)
 	{
@@ -43,7 +43,7 @@ void filecreator::creatorLoop()
 	}
 }
 
-bool filecreator::checkInput(string &text, string message_key)
+bool FileCreator::checkInput(string &text, string message_key)
 {
 	if(text.size() <= 0)
 	{
@@ -61,12 +61,12 @@ bool filecreator::checkInput(string &text, string message_key)
 	return false;
 }
 
-void filecreator::createFile()
+void FileCreator::createFile()
 {
 	return;
 }
 
-bool filecreator::cOrCpp()
+bool FileCreator::cOrCpp()
 {
 	string input = "";
 	cout << endl << Messages::getNormalMessage("C_OR_CPP") << endl;
@@ -93,7 +93,7 @@ bool filecreator::cOrCpp()
 	return false;
 }
 
-bool filecreator::classOrNoClass()
+bool FileCreator::classOrNoClass()
 {
 	string input = "";
 	cout << endl << Messages::getNormalMessage("CLASS_OR_NO_CLASS") << endl;

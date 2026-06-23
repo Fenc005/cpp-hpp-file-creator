@@ -2,21 +2,23 @@
 #define FILECREATOR_HPP
 
 #include "../../base.hpp"
+#include "../serializer/serializer.hpp"
 
-class filecreator
+class FileCreator
 {
 	private:
 		string file_path_;
 		string input_;
 		bool is_cpp_;
 		bool with_class_;
+		Serializer serializer_;
 
 	public:
-		filecreator();
+		FileCreator();
 
-		filecreator(const filecreator&) = delete;
+		FileCreator(const FileCreator&) = delete;
 
-		~filecreator() = default;
+		~FileCreator() = default;
 
 		void run();
 
