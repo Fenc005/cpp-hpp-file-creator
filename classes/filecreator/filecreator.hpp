@@ -35,6 +35,8 @@ class FileCreator
 		void createFilePath();
 		void checkProgramingLanguage();
 		void createFile();
+		void createCPlusPlusFiles(string file_name);
+		void createCFiles(string file_name);
 };
 
 #endif //FILECREATOR_HPP

@@ -25,6 +25,7 @@ using std::unordered_map;
 using std::ostream;
 using std::ifstream;
 using std::fstream;
+using std::ofstream;
 
 using std::filesystem::path;
 using std::filesystem::exists;

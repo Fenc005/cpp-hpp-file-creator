@@ -78,8 +78,8 @@ void FileCreator::checkProgramingLanguage()
 
 	string input = "";
 	getline(cin, input);
-	Utils::allSmall(input);
 
+	Utils::allSmall(input);
 	if(input == "quit")
 	{
 		running_ = States::QUIT;
@@ -100,6 +100,75 @@ void FileCreator::checkProgramingLanguage()
 
 void FileCreator::createFile()
 {
+	//temporary mode
+	is_cpp_ = false;
+
+	serializer_.writeMessage("INPUT_MSSG");
+	serializer_.writeMessage("INPUT_WAIT");
+
+	string file_name = "";
+	getline(cin, file_name);
+
+	string file_name_copy = file_name;
+	Utils::allSmall(file_name_copy);
+	if(file_name_copy == "quit")
+	{
+		running_ = States::QUIT;
+		return;
+	}	
+
+	if(is_cpp_ == true)
+	{
+		createCPlusPlusFiles(file_name);
+	}
+	else
+	{
+		createCFiles(file_name);
+	}
+}
+
+void FileCreator::createCPlusPlusFiles(string file_name)
+{
 	return;
 }
 
+void FileCreator::createCFiles(string file_name)
+{
+	path new_path = file_path_ / file_name;
+	create_directories(new_path);
+
+	ofstream c_file(new_path/(file_name + ".c"));
+	ofstream h_file(new_path/(file_name + ".h"));
+
+	if (!c_file.is_open() || !h_file.is_open()) {
+      serializer_.writeError("NO_OPEN");
+      return;
+  }
+	
+	Serializer c_serializer(c_file);
+	Serializer h_serializer(h_file);
+
+	string file_name_copy = file_name;
+	Utils::allBig(file_name_copy);
+
+	h_serializer.writeFileContent("IFNDEF");
+	h_serializer.write(file_name_copy);
+	h_serializer.writeFileContent("H");
+	h_serializer.writeLine();
+
+	h_serializer.writeFileContent("DEFINE");
+	h_serializer.write(file_name_copy);
+	h_serializer.writeFileContent("H");
+	h_serializer.writeLine();
+
+	h_serializer.writeLine();
+
+	h_serializer.writeFileContent("ENDIF");
+	h_serializer.write("// ");
+	h_serializer.write(file_name_copy);
+	h_serializer.writeFileContent("H");
+
+	c_serializer.writeFileContent("INCLUDE");
+	c_serializer.writeLine("\"" + file_name + ".h\"");
+	c_serializer.writeLine();
+}

@@ -18,6 +18,7 @@ class Messages
 			{"INVALID_COMMAND", "[ERROR] Invalid command entered"},
 			{"INVALID_LANGUAGE", "[SOFT ERROR] Invalid programing language entered, therefore defaulting to C"},
 			{"INVALID_CLASS", "[SOFT ERROR] Answer was not valid, therefore defaulting to no"},
+			{"NO_OPEN", "[ERROR] Failed to create files. Check folder permissions"},
 		};
 
 		inline static const unordered_map<string, string> NORMAL_MESSAGES =
@@ -44,11 +45,12 @@ class Messages
 
 		inline static const unordered_map<string, string> FILE_CONTENTS =
 		{
-			{"IFNDEF", "#ifndef"},
-			{"DEFINE", "#define"},
-			{"ENDIF", "#endif"},
+			{"IFNDEF", "#ifndef "},
+			{"DEFINE", "#define "},
+			{"ENDIF", "#endif "},
 			{"HPP", "_HPP"},
-			{"INCLUDE", "#include"},
+			{"H", "_H"},
+			{"INCLUDE", "#include "},
 			{"CLASS", "class"},
 			{"BRACKETS", "{\n\n};"},
 			{"PRIVATE", "private:"},
