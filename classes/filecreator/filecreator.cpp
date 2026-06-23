@@ -146,13 +146,19 @@ void FileCreator::createCFiles(string file_name)
 		return;
 	}
 
-	path new_path = file_path_ / path(file_name).relative_path();
+	path file_name_path = file_name;
+
+	if(file_name_path.relative_path().parent_path() != "")
+	{
+		serializer_.writeError("INVALID_FILENAME");
+		return;
+	}
+
+	path new_path = file_path_ / file_name_path.relative_path();
 	create_directories(new_path);
 
-	//Todo checken wenn nur filename eingetragen wurde, dass es nur wirklich filename gibt (also keine parent directories)
-
-	ofstream c_file(new_path/path(file_name + c_extension).relative_path().filename());
-	ofstream h_file(new_path/path(file_name + h_extension).relative_path().filename());
+	ofstream c_file(new_path/file_name_path += c_extension);
+	ofstream h_file(new_path/file_name_path += h_extension);
 
 	if(c_file.is_open() == false || h_file.is_open() == false)
 	{
