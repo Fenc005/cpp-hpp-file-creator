@@ -12,8 +12,6 @@ void FileCreator::run()
 	serializer_.writeMessage("QUIT_INFO");
 	serializer_.writeLine();
 	serializer_.writeMessage("PATH_INFO");
-	serializer_.writeLine();
-	serializer_.writeMessage("ROOT_INFO");
 
 	createFilePath();
 	if(running_ == States::QUIT) return;
@@ -21,7 +19,7 @@ void FileCreator::run()
 	checkProgramingLanguage();
 	if(running_ == States::QUIT) return;
 
-	while (running_ != States::QUIT)
+	while(running_ != States::QUIT)
 	{
 		createFile();
 	}
@@ -43,19 +41,7 @@ void FileCreator::createFilePath()
 		return;
 	}
 
-	if(file_path_string_.empty() == false && file_path_string_.at(0) == '/')
-	{
-		if(file_path_string_.size() == 1)
-		{
-			file_path_string_ = DEFAULT_PATH;
-		}
-		else
-		{
-			file_path_string_.erase(0, 1);
-		}
-	}
-
-	file_path_ = (file_path_string_.empty() == true) ? DEFAULT_PATH : file_path_string_;
+	file_path_ = current_path() / path(file_path_string_).relative_path();
 	file_path_ = file_path_.lexically_normal();
 
 	if(exists(file_path_) == false)
@@ -154,16 +140,39 @@ void FileCreator::createCFiles(string file_name)
 	string big_h_extension = h_extension.substr(1);
 	Utils::allBig(big_h_extension);
 
-	path new_path = file_path_ / file_name;
+	if(file_name.empty() == true)
+	{
+		serializer_.writeError("INVALID_FILENAME");
+		return;
+	}
+
+	path file_name_path = file_name;
+
+	if(file_name_path.relative_path().parent_path() != "")
+	{
+		serializer_.writeError("INVALID_FILENAME");
+		return;
+	}
+
+	path new_path = file_path_ / file_name_path.relative_path();
 	create_directories(new_path);
 
-	ofstream c_file(new_path/(file_name + c_extension));
-	ofstream h_file(new_path/(file_name + h_extension));
+	path c_file_path = new_path / (file_name + c_extension);
+	path h_file_path = new_path / (file_name + h_extension);
+
+	if((exists(c_file_path) && file_size(c_file_path) > 0) || (exists(h_file_path) && file_size(h_file_path) > 0))
+	{
+		serializer_.writeError("FILE_NO_EMPTY");
+		return;
+	}
+
+	ofstream c_file(c_file_path);
+	ofstream h_file(h_file_path);
 
 	if(c_file.is_open() == false || h_file.is_open() == false)
 	{
-      serializer_.writeError("NO_OPEN");
-      return;
+		serializer_.writeError("NO_OPEN");
+		return;
   }
 	
 	Serializer c_serializer(c_file);
@@ -172,26 +181,7 @@ void FileCreator::createCFiles(string file_name)
 	string file_name_copy = file_name;
 	Utils::allBig(file_name_copy);
 
-	h_serializer.writeFileContent("IFNDEF");
-	h_serializer.write(file_name_copy);
-	h_serializer.writeFileContent(big_h_extension);
-	h_serializer.writeLine();
-
-	h_serializer.writeFileContent("DEFINE");
-	h_serializer.write(file_name_copy);
-	h_serializer.writeFileContent(big_h_extension);
-	h_serializer.writeLine();
-
-	(with_class_ == true) ? createClassForCpp(h_serializer, file_name) : h_serializer.writeLine();
-
-	h_serializer.writeFileContent("ENDIF");
-	h_serializer.write("// ");
-	h_serializer.write(file_name_copy);
-	h_serializer.writeFileContent(big_h_extension);
-
-	c_serializer.writeFileContent("INCLUDE");
-	c_serializer.writeLine("\"" + file_name + h_extension + "\"");
-	c_serializer.writeLine();
+	writeCFile(h_serializer, c_serializer, file_name_copy, big_h_extension, file_name, h_extension);
 }
 
 void FileCreator::classEnabler()
@@ -231,4 +221,30 @@ void FileCreator::classEnabler()
 
 		serializer_.writeError("INVALID_CLASS");
 	}
+}
+
+void FileCreator::writeCFile(Serializer &h_serializer, Serializer &c_serializer, 
+		string file_name_copy, string big_h_extension, string file_name, string h_extension)
+{
+	h_serializer.writeFileContent("IFNDEF");
+	h_serializer.write(file_name_copy);
+	h_serializer.writeFileContent(big_h_extension);
+	h_serializer.writeLine();
+
+	h_serializer.writeFileContent("DEFINE");
+	h_serializer.write(file_name_copy);
+	h_serializer.writeFileContent(big_h_extension);
+	h_serializer.writeLine();
+
+	(with_class_ == true) ? createClassForCpp(h_serializer, file_name) : h_serializer.writeLine();
+
+	h_serializer.writeFileContent("ENDIF");
+	h_serializer.write("// ");
+	h_serializer.write(file_name_copy);
+	h_serializer.writeFileContent(big_h_extension);
+	h_serializer.writeLine();
+
+	c_serializer.writeFileContent("INCLUDE");
+	c_serializer.writeLine("\"" + file_name + h_extension + "\"");
+	c_serializer.writeLine();
 }

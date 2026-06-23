@@ -36,6 +36,8 @@ class FileCreator
 		void createClassForCpp(Serializer &h_serializer, string &file_name);
 		void createCFiles(string file_name);
 		void classEnabler();
+		void writeCFile(Serializer &h_serializer, Serializer &c_serializer, 
+		string file_name_copy, string big_h_extension, string file_name, string h_extension);
 };
 
 #endif //FILECREATOR_HPP
