@@ -1,5 +1,5 @@
 # cpp-hpp-file-creator
-## works for c as well
+## works for c and c++
 
 ### compilation:
 the program has to be compiled before runnning (use clang if you want to use the makefile)
