@@ -18,7 +18,6 @@ class FileCreator
 		string file_path_string_;
 		path file_path_;
 
-		string input_;
 		bool is_cpp_;
 		bool with_class_;
 		Serializer serializer_;

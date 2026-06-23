@@ -1,6 +1,6 @@
 #include "filecreator.hpp"
 
-FileCreator::FileCreator() : file_path_string_(""), file_path_(""), input_(""), is_cpp_(false), with_class_(false), 
+FileCreator::FileCreator() : file_path_string_(""), file_path_(""), is_cpp_(false), with_class_(false), 
 	serializer_(cout), running_(States::DEFAULT) {}
 
 void FileCreator::run()
@@ -10,19 +10,22 @@ void FileCreator::run()
 	serializer_.writeMessage("WELCOME_LINE");
 	serializer_.writeLine();
 	serializer_.writeMessage("QUIT_INFO");
+	serializer_.writeLine();
 	serializer_.writeMessage("PATH_INFO");
 	serializer_.writeLine();
+	serializer_.writeMessage("ROOT_INFO");
+	serializer_.writeLine();
 
-	/*createFilePath();
-	if(running_ == States::QUIT) return;*/
+	createFilePath();
+	if(running_ == States::QUIT) return;
 
 	checkProgramingLanguage();
 	if(running_ == States::QUIT) return;
 
-	/*while (running_ != States::QUIT)
+	while (running_ != States::QUIT)
 	{
 		createFile();
-	}*/
+	}
 }
 
 void FileCreator::createFilePath()
@@ -70,7 +73,29 @@ void FileCreator::createFilePath()
 
 void FileCreator::checkProgramingLanguage()
 {
-	return;
+	serializer_.writeMessage("C_OR_CPP");
+	serializer_.writeMessage("INPUT_WAIT");
+
+	string input = "";
+	getline(cin, input);
+	Utils::allSmall(input);
+
+	if(input == "quit")
+	{
+		running_ = States::QUIT;
+		return;
+	}
+
+	if(input != "c" && input != "p")
+	{
+		serializer_.writeError("INVALID_LANGUAGE");
+		return;
+	}
+
+	if(input == "p")
+	{
+		is_cpp_ = true;
+	}
 }
 
 void FileCreator::createFile()

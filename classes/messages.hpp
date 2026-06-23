@@ -22,9 +22,9 @@ class Messages
 
 		inline static const unordered_map<string, string> NORMAL_MESSAGES =
 		{
-			{"WELCOME_LINE", "------------------------------------"},
-			{"WELCOME_MSSG", "Welcome to the cpp/hpp file creator!\n"
-				"------(also works for C files)------"},
+			{"WELCOME_LINE", "----------------------------------------"},
+			{"WELCOME_MSSG", "--Welcome to the cpp/hpp file creator!--\n"
+				"--------(also works for C files)--------"},
 			{"INPUT_MSSG", "Please input the name of the file you want to create."},
 			{"INPUT_WAIT", " > "},
 			{"FILE_PATH", "Please input the file path you want your files to be saved at.\n"
@@ -34,11 +34,12 @@ class Messages
 
 			{"QUIT_INFO", "[INFO] Use QUIT to end the program."},
 			{"PATH_INFO", "[INFO] The program will put your\n"
-										"files into a newly created folder\n" 
-										"with the same name as the files"},
+										"       files into a newly created\n" 
+										"       folder with the same name\n"
+										"       as the files"},
 			{"ROOT_INFO", "[INFO] If you really want to create\n"
-										"files on your OS root directory then\n"
-										"specify it with using '//'."},
+										"       files on your OS root directory\n"
+										"       then specify it with using '//'"},
 		};
 
 		inline static const unordered_map<string, string> FILE_CONTENTS =
