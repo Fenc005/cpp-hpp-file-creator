@@ -28,8 +28,8 @@ void FileCreator::creatorLoop()
 {
 	while(true)
 	{
-		cout << endl << Messages::getNormalMessage("INPUT_MSSG") << endl;
-		cout << Messages::getNormalMessage("INPUT_WAIT");
+		serializer_.writeMessage("INPUT_MSSG");
+		serializer_.writeMessage("INPUT_WAIT");
 
 		getline(cin, input_);
 		if(checkInput(input_, "INVALID_FILENAME"))
@@ -47,7 +47,7 @@ bool FileCreator::checkInput(string &text, string message_key)
 {
 	if(text.size() <= 0)
 	{
-		cout << endl << Messages::getErrorMessages(message_key) << endl;
+		serializer_.writeError(message_key);
 		return true;
 	}
 
@@ -69,8 +69,8 @@ void FileCreator::createFile()
 bool FileCreator::cOrCpp()
 {
 	string input = "";
-	cout << endl << Messages::getNormalMessage("C_OR_CPP") << endl;
-	cout << Messages::getNormalMessage("INPUT_WAIT");
+	serializer_.writeMessage("C_OR_CPP");
+	serializer_.writeMessage("INPUT_WAIT");
 	getline(cin, input);
 
 	utils::AllSmall(input);
@@ -81,7 +81,7 @@ bool FileCreator::cOrCpp()
 
 	if(input != "c" && input != "p")
 	{
-		cout << endl << Messages::getErrorMessages("INVALID_LANGUAGE") << endl;
+		serializer_.writeError("INVALID_LANGUAGE");
 		return true;
 	}
 
@@ -96,8 +96,8 @@ bool FileCreator::cOrCpp()
 bool FileCreator::classOrNoClass()
 {
 	string input = "";
-	cout << endl << Messages::getNormalMessage("CLASS_OR_NO_CLASS") << endl;
-	cout << Messages::getNormalMessage("INPUT_WAIT");
+	serializer_.writeMessage("CLASS_OR_NO_CLASS");
+	serializer_.writeMessage("INPUT_WAIT");
 	getline(cin, input);
 
 	utils::AllSmall(input);
@@ -108,7 +108,7 @@ bool FileCreator::classOrNoClass()
 
 	if(input != "yes" && input != "no")
 	{
-		cout << endl << Messages::getErrorMessages("INVALID_CLASS") << endl;
+		serializer_.writeError("INVALID_CLASS");
 		return false;
 	}
 

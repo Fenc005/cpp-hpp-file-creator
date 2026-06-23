@@ -15,7 +15,7 @@ void Serializer::write(const string text)
 
 void Serializer::writeError(const string &message)
 {
-	stream_ << Messages::getErrorMessages(message) << endl;
+	stream_ << endl << Messages::getErrorMessages(message) << endl;
 }
 
 void Serializer::writeMessage(const string &message)
@@ -31,5 +31,5 @@ void Serializer::writeMessage(const string &message)
 
 void Serializer::writeFileContent(const string &message)
 {
-	stream_ << Messages::getFileContents(message) << endl;
+	stream_ << Messages::getFileContents(message);
 }
