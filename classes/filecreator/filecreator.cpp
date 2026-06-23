@@ -157,8 +157,8 @@ void FileCreator::createCFiles(string file_name)
 	path new_path = file_path_ / file_name_path.relative_path();
 	create_directories(new_path);
 
-	ofstream c_file(new_path/file_name_path += c_extension);
-	ofstream h_file(new_path/file_name_path += h_extension);
+	ofstream c_file(new_path / (file_name + c_extension));
+	ofstream h_file(new_path / (file_name + h_extension));
 
 	if(c_file.is_open() == false || h_file.is_open() == false)
 	{
@@ -188,6 +188,7 @@ void FileCreator::createCFiles(string file_name)
 	h_serializer.write("// ");
 	h_serializer.write(file_name_copy);
 	h_serializer.writeFileContent(big_h_extension);
+	h_serializer.writeLine();
 
 	c_serializer.writeFileContent("INCLUDE");
 	c_serializer.writeLine("\"" + file_name + h_extension + "\"");
