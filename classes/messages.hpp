@@ -29,7 +29,7 @@ class Messages
 			{"INPUT_MSSG", "Please input the name of the file you want to create."},
 			{"INPUT_WAIT", " > "},
 			{"FILE_PATH", "Please input the file path you want your files to be saved at.\n"
-										"               only the parent directory's path               "},
+			"(only the parent directory's path)"},
 			{"C_OR_CPP", "Do you want to create files for C [C] or C++ [P]"},
 			{"CLASS_OR_NO_CLASS", "Do you want to create the class? [YES]/[NO]"},
 
