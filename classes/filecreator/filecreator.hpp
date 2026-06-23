@@ -4,14 +4,25 @@
 #include "../../base.hpp"
 #include "../serializer/serializer.hpp"
 
+enum class States
+{
+	FALSE,
+	TRUE,
+	QUIT,
+	DEFAULT,
+};
+
 class FileCreator
 {
 	private:
-		string file_path_;
+		string file_path_string_;
+		path file_path_;
+
 		string input_;
 		bool is_cpp_;
 		bool with_class_;
 		Serializer serializer_;
+		States running_;
 
 	public:
 		FileCreator();
@@ -22,15 +33,9 @@ class FileCreator
 
 		void run();
 
-		void creatorLoop();
-
-		bool checkInput(string &input, string message_key);
-
+		void createFilePath();
+		void checkProgramingLanguage();
 		void createFile();
-
-		bool cOrCpp();
-
-		bool classOrNoClass();
 };
 
 #endif //FILECREATOR_HPP

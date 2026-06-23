@@ -14,7 +14,7 @@ class Messages
 		inline static const unordered_map<string, string> ERROR_MESSAGES =
 		{
 			{"INVALID_FILENAME", "[ERROR] Invalid filename entered"},
-			{"INVALID_FILEPATH", "[ERROR] Invalid filepath entered"},
+			{"INVALID_FILEPATH", "[ERROR] There was an error creating the parent directory"},
 			{"INVALID_COMMAND", "[ERROR] Invalid command entered"},
 			{"INVALID_LANGUAGE", "[SOFT ERROR] Invalid programing language entered, therefore defaulting to C"},
 			{"INVALID_CLASS", "[SOFT ERROR] Answer was not valid, therefore defaulting to no"},
@@ -23,13 +23,22 @@ class Messages
 		inline static const unordered_map<string, string> NORMAL_MESSAGES =
 		{
 			{"WELCOME_LINE", "------------------------------------"},
-			{"WELCOME_MSSG", "Welcome to the cpp/hpp file creator!"},
+			{"WELCOME_MSSG", "Welcome to the cpp/hpp file creator!\n"
+				"------(also works for C files)------"},
 			{"INPUT_MSSG", "Please input the name of the file you want to create."},
-			{"QUIT_INFO", "[INFO] Use QUIT to end the program."},
 			{"INPUT_WAIT", " > "},
-			{"FILE_PATH", "Please input the file path you want your files to be saved at."},
+			{"FILE_PATH", "Please input the file path you want your files to be saved at.\n"
+										"               only the parent directory's path               "},
 			{"C_OR_CPP", "Do you want to create files for C [C] or C++ [P]"},
 			{"CLASS_OR_NO_CLASS", "Do you want to create the class? [YES]/[NO]"},
+
+			{"QUIT_INFO", "[INFO] Use QUIT to end the program."},
+			{"PATH_INFO", "[INFO] The program will put your\n"
+										"files into a newly created folder\n" 
+										"with the same name as the files"},
+			{"ROOT_INFO", "[INFO] If you really want to create\n"
+										"files on your OS root directory then\n"
+										"specify it with using '//'."},
 		};
 
 		inline static const unordered_map<string, string> FILE_CONTENTS =

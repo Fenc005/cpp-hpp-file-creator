@@ -5,7 +5,7 @@ using std::cout;
 using std::endl;
 using std::string;
 
-class utils
+class Utils
 {
 	public:
 		static void allBig(string &input)
@@ -16,7 +16,7 @@ class utils
 				}
 		}
 
-		static void AllSmall(string &input)
+		static void allSmall(string &input)
 		{
 			for(size_t i = 0; i < input.size(); i++)
 			{

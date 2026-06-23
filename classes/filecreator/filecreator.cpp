@@ -1,6 +1,7 @@
 #include "filecreator.hpp"
 
-FileCreator::FileCreator() : file_path_(""), input_(""), is_cpp_(false), with_class_(false), serializer_(cout) {}
+FileCreator::FileCreator() : file_path_string_(""), file_path_(""), input_(""), is_cpp_(false), with_class_(false), 
+	serializer_(cout), running_(States::DEFAULT) {}
 
 void FileCreator::run()
 {
@@ -9,56 +10,67 @@ void FileCreator::run()
 	serializer_.writeMessage("WELCOME_LINE");
 	serializer_.writeLine();
 	serializer_.writeMessage("QUIT_INFO");
+	serializer_.writeMessage("PATH_INFO");
 	serializer_.writeLine();
+
+	/*createFilePath();
+	if(running_ == States::QUIT) return;*/
+
+	checkProgramingLanguage();
+	if(running_ == States::QUIT) return;
+
+	/*while (running_ != States::QUIT)
+	{
+		createFile();
+	}*/
+}
+
+void FileCreator::createFilePath()
+{
 	serializer_.writeMessage("FILE_PATH");
 	serializer_.writeMessage("INPUT_WAIT");
 
-	getline(cin, file_path_);
-	if(checkInput(file_path_, "INVALID_FILEPATH") == true)
+	getline(cin, file_path_string_);
+
+	string file_path_string_copy = file_path_string_;
+	Utils::allSmall(file_path_string_copy);
+	if(file_path_string_copy == "quit")
 	{
+		running_ = States::QUIT;
 		return;
 	}
 
-	cOrCpp();
-
-	creatorLoop();
-}
-
-void FileCreator::creatorLoop()
-{
-	while(true)
+	if(file_path_string_.empty() == false && file_path_string_.at(0) == '/')
 	{
-		serializer_.writeMessage("INPUT_MSSG");
-		serializer_.writeMessage("INPUT_WAIT");
-
-		getline(cin, input_);
-		if(checkInput(input_, "INVALID_FILENAME"))
+		if(file_path_string_.size() == 1)
 		{
-			return;
+			file_path_string_ = DEFAULT_PATH;
 		}
+		else
+		{
+			file_path_string_.erase(0, 1);
+		}
+	}
 
-		classOrNoClass();
+	file_path_ = (file_path_string_.empty() == true) ? DEFAULT_PATH : file_path_string_;
+	file_path_ = file_path_.lexically_normal();
 
-		createFile();
+	if(exists(file_path_) == false)
+	{
+		create_directories(file_path_);
+	}
+
+	if(exists(file_path_) == false)
+	{
+		serializer_.writeError("INVALID_FILEPATH");
+		running_ = States::QUIT;
+		return;
 	}
 }
 
-bool FileCreator::checkInput(string &text, string message_key)
+void FileCreator::checkProgramingLanguage()
 {
-	if(text.size() <= 0)
-	{
-		serializer_.writeError(message_key);
-		return true;
-	}
-
-	string text_copy = text;
-	utils::AllSmall(text_copy);
-	if(text_copy == "quit")
-	{
-		return true;
-	}
-
-	return false;
+	return;
 }
 
 void FileCreator::createFile()
@@ -66,56 +78,3 @@ void FileCreator::createFile()
 	return;
 }
 
-bool FileCreator::cOrCpp()
-{
-	string input = "";
-	serializer_.writeMessage("C_OR_CPP");
-	serializer_.writeMessage("INPUT_WAIT");
-	getline(cin, input);
-
-	utils::AllSmall(input);
-	if(checkInput(input, "INVALID_LANGUAGE") == true)
-	{
-		return true;
-	}
-
-	if(input != "c" && input != "p")
-	{
-		serializer_.writeError("INVALID_LANGUAGE");
-		return true;
-	}
-
-	if(input == "p")
-	{
-		is_cpp_ = true;
-	}
-
-	return false;
-}
-
-bool FileCreator::classOrNoClass()
-{
-	string input = "";
-	serializer_.writeMessage("CLASS_OR_NO_CLASS");
-	serializer_.writeMessage("INPUT_WAIT");
-	getline(cin, input);
-
-	utils::AllSmall(input);
-	if(checkInput(input, "INVALID_CLASS") == true)
-	{
-		return true;
-	}
-
-	if(input != "yes" && input != "no")
-	{
-		serializer_.writeError("INVALID_CLASS");
-		return false;
-	}
-
-	if(input == "yes")
-	{
-		with_class_ = true;
-	}
-
-	return false;
-}
