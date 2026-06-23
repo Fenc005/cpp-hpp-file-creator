@@ -17,7 +17,7 @@ class Messages
 			{"INVALID_FILEPATH", "[ERROR] There was an error creating the parent directory"},
 			{"INVALID_COMMAND", "[ERROR] Invalid command entered"},
 			{"INVALID_LANGUAGE", "[SOFT ERROR] Invalid programing language entered, therefore defaulting to C"},
-			{"INVALID_CLASS", "[SOFT ERROR] Answer was not valid, therefore defaulting to no"},
+			{"INVALID_CLASS", "[SOFT ERROR] Answer was not valid, therefore defaulting to NO class"},
 			{"NO_OPEN", "[ERROR] Failed to create files. Check folder permissions"},
 		};
 
@@ -51,8 +51,7 @@ class Messages
 			{"HPP", "_HPP"},
 			{"H", "_H"},
 			{"INCLUDE", "#include "},
-			{"CLASS", "class"},
-			{"BRACKETS", "{\n\n};"},
+			{"CLASS", "class "},
 			{"PRIVATE", "private:"},
 			{"PUBLIC", "public:"},
 		};

@@ -6,8 +6,6 @@
 
 enum class States
 {
-	FALSE,
-	TRUE,
 	QUIT,
 	DEFAULT,
 };
@@ -19,7 +17,7 @@ class FileCreator
 		path file_path_;
 
 		bool is_cpp_;
-		bool with_class_;
+		optional<bool> with_class_;
 		Serializer serializer_;
 		States running_;
 
@@ -35,8 +33,9 @@ class FileCreator
 		void createFilePath();
 		void checkProgramingLanguage();
 		void createFile();
-		void createCPlusPlusFiles(string file_name);
+		void createClassForCpp(Serializer &h_serializer, string &file_name);
 		void createCFiles(string file_name);
+		void classEnabler();
 };
 
 #endif //FILECREATOR_HPP

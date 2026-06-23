@@ -1,6 +1,6 @@
 #include "filecreator.hpp"
 
-FileCreator::FileCreator() : file_path_string_(""), file_path_(""), is_cpp_(false), with_class_(false), 
+FileCreator::FileCreator() : file_path_string_(""), file_path_(""), is_cpp_(false), with_class_(nullopt), 
 	serializer_(cout), running_(States::DEFAULT) {}
 
 void FileCreator::run()
@@ -14,7 +14,6 @@ void FileCreator::run()
 	serializer_.writeMessage("PATH_INFO");
 	serializer_.writeLine();
 	serializer_.writeMessage("ROOT_INFO");
-	serializer_.writeLine();
 
 	createFilePath();
 	if(running_ == States::QUIT) return;
@@ -30,6 +29,7 @@ void FileCreator::run()
 
 void FileCreator::createFilePath()
 {
+	serializer_.writeLine();
 	serializer_.writeMessage("FILE_PATH");
 	serializer_.writeMessage("INPUT_WAIT");
 
@@ -73,6 +73,7 @@ void FileCreator::createFilePath()
 
 void FileCreator::checkProgramingLanguage()
 {
+	serializer_.writeLine();
 	serializer_.writeMessage("C_OR_CPP");
 	serializer_.writeMessage("INPUT_WAIT");
 
@@ -100,9 +101,7 @@ void FileCreator::checkProgramingLanguage()
 
 void FileCreator::createFile()
 {
-	//temporary mode
-	is_cpp_ = false;
-
+	serializer_.writeLine();
 	serializer_.writeMessage("INPUT_MSSG");
 	serializer_.writeMessage("INPUT_WAIT");
 
@@ -117,30 +116,46 @@ void FileCreator::createFile()
 		return;
 	}	
 
-	if(is_cpp_ == true)
-	{
-		createCPlusPlusFiles(file_name);
-	}
-	else
-	{
-		createCFiles(file_name);
-	}
+	createCFiles(file_name);
 }
 
-void FileCreator::createCPlusPlusFiles(string file_name)
+void FileCreator::createClassForCpp(Serializer &h_serializer, string &file_name)
 {
-	return;
+	h_serializer.writeLine();
+	h_serializer.writeFileContent("CLASS");
+	h_serializer.writeLine(file_name);
+	h_serializer.writeLine("{");
+	h_serializer.writeFileContent("PRIVATE");
+	h_serializer.writeLine();
+	h_serializer.writeLine();
+	h_serializer.writeFileContent("PUBLIC");
+	h_serializer.writeLine();
+	h_serializer.writeLine();
+	h_serializer.writeLine("};");
+	h_serializer.writeLine();
 }
 
 void FileCreator::createCFiles(string file_name)
 {
+	if(is_cpp_ == true && with_class_.has_value() == false)
+	{
+		classEnabler();
+		if(running_ == States::QUIT) return;
+	}
+
+	string c_extension = (is_cpp_ == true) ? ".cpp" : ".c";
+	string h_extension = (is_cpp_ == true) ? ".hpp" : ".h";
+	string big_h_extension = h_extension.substr(1);
+	Utils::allBig(big_h_extension);
+
 	path new_path = file_path_ / file_name;
 	create_directories(new_path);
 
-	ofstream c_file(new_path/(file_name + ".c"));
-	ofstream h_file(new_path/(file_name + ".h"));
+	ofstream c_file(new_path/(file_name + c_extension));
+	ofstream h_file(new_path/(file_name + h_extension));
 
-	if (!c_file.is_open() || !h_file.is_open()) {
+	if(c_file.is_open() == false || h_file.is_open() == false)
+	{
       serializer_.writeError("NO_OPEN");
       return;
   }
@@ -153,22 +168,54 @@ void FileCreator::createCFiles(string file_name)
 
 	h_serializer.writeFileContent("IFNDEF");
 	h_serializer.write(file_name_copy);
-	h_serializer.writeFileContent("H");
+	h_serializer.writeFileContent(big_h_extension);
 	h_serializer.writeLine();
 
 	h_serializer.writeFileContent("DEFINE");
 	h_serializer.write(file_name_copy);
-	h_serializer.writeFileContent("H");
+	h_serializer.writeFileContent(big_h_extension);
 	h_serializer.writeLine();
 
-	h_serializer.writeLine();
+	(with_class_ == true) ? createClassForCpp(h_serializer, file_name) : h_serializer.writeLine();
 
 	h_serializer.writeFileContent("ENDIF");
 	h_serializer.write("// ");
 	h_serializer.write(file_name_copy);
-	h_serializer.writeFileContent("H");
+	h_serializer.writeFileContent(big_h_extension);
 
 	c_serializer.writeFileContent("INCLUDE");
-	c_serializer.writeLine("\"" + file_name + ".h\"");
+	c_serializer.writeLine("\"" + file_name + h_extension + "\"");
 	c_serializer.writeLine();
+}
+
+void FileCreator::classEnabler()
+{
+	serializer_.writeLine();
+	serializer_.writeMessage("CLASS_OR_NO_CLASS");
+	serializer_.writeMessage("INPUT_WAIT");
+
+	string input = "";
+	getline(cin, input);
+	Utils::allSmall(input);
+
+	if(input == "quit")
+	{
+		running_ = States::QUIT;
+		return;
+	}
+
+	if(input != "yes" && input != "no")
+	{
+		serializer_.writeError("INVALID_CLASS");
+		with_class_ = false;
+		return;
+	}
+
+	if(input == "yes")
+	{
+		with_class_ = true;
+		return;
+	}
+
+	with_class_ = false;
 }

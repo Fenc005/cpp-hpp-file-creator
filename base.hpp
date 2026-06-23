@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <vector>
 #include <filesystem>
+#include <optional>
 
 #include "classes/messages.hpp"
 #include "classes/utils.hpp"
@@ -21,6 +22,8 @@ using std::cin;
 
 using std::format;
 using std::unordered_map;
+using std::optional;
+using std::nullopt;
 
 using std::ostream;
 using std::ifstream;
