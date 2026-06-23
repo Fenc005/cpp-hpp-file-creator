@@ -140,6 +140,11 @@ void FileCreator::createCFiles(string file_name)
 	string big_h_extension = h_extension.substr(1);
 	Utils::allBig(big_h_extension);
 
+	if(file_name.empty() == true)
+	{
+		file_name = DEFAULT_FILE_NAME;
+	}
+
 	path new_path = file_path_ / file_name;
 	create_directories(new_path);
 

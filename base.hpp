@@ -37,6 +37,6 @@ using std::filesystem::create_directory;
 using std::filesystem::create_directories;
 using std::filesystem::current_path;
 
-const string DEFAULT_PATH = "creator";
+const string DEFAULT_FILE_NAME = "creator";
 
 #endif // BASE_HPP
