@@ -142,10 +142,11 @@ void FileCreator::createCFiles(string file_name)
 
 	if(file_name.empty() == true)
 	{
-		file_name = DEFAULT_FILE_NAME;
+		serializer_.writeError("INVALID_FILENAME");
+		return;
 	}
 
-	path new_path = file_path_ / file_name;
+	path new_path = file_path_ / path(file_name).relative_path();
 	create_directories(new_path);
 
 	ofstream c_file(new_path/(file_name + c_extension));
