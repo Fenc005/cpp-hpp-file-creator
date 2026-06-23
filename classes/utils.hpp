@@ -1,3 +1,6 @@
+#ifndef UTILS_HPP
+#define UTILS_HPP
+
 #include <iostream>
 #include <string>
 
@@ -24,3 +27,5 @@ class Utils
 			}
 		}
 };
+
+#endif // UTILS_HPP
